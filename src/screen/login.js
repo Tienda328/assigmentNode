@@ -13,6 +13,11 @@ class Login extends PureComponent {
     };
   }
 
+  Login = () => {
+    const {navigation} = this.props;
+    navigation.navigate('home');
+  };
+
   onChangeTextUserame = (email) => {
     this.setState({email});
   };
@@ -22,7 +27,6 @@ class Login extends PureComponent {
       password: value,
     });
   };
-
 
   render() {
     const {email, password, error} = this.state;
@@ -58,10 +62,9 @@ class Login extends PureComponent {
             />
           </View>
 
-          <TouchableOpacity style={styles.buttun} >
+          <TouchableOpacity style={styles.buttun} onPress={this.Login}>
             <Text style={styles.txtButtun}>Login</Text>
           </TouchableOpacity>
-
         </View>
       </View>
     );
