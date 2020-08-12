@@ -1,27 +1,29 @@
 import React, {PureComponent} from 'react';
-import {View, Text, Image, TouchableOpacity} from 'react-native';
+import {View, Text, Image, TouchableHighlight} from 'react-native';
 import styles from './styles/item-project';
 
 class Home extends PureComponent {
   render() {
-    const {name, email, img} = this.props;
+    const {name, email, img, onPressSua, onPressXoa} = this.props;
     return (
       <View style={styles.containter}>
         <View style={{justifyContent: 'center', alignItems: 'center'}}>
           <Image
             source={{uri: img}}
-            style={{width: 100, height: 100, alignItems: 'center'}}
+            style={{width: 150, height: 150, alignItems: 'center', marginTop:10}}
           />
 
           <Text style={styles.name}>{name}</Text>
           <Text style={styles.email}>{email}</Text>
 
-          <TouchableOpacity style={{backgroundColor: 'green', width: 50, height: 30, justifyContent: 'center', alignItems: 'center', borderRadius: 4}}>
-            <Text>sua</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={{backgroundColor: 'red', width: 50, height: 30, justifyContent: 'center', alignItems: 'center', borderRadius: 4, marginVertical: 8}}>
-            <Text>Xoa</Text>
-          </TouchableOpacity>
+          <TouchableHighlight style={{backgroundColor: 'green', width: 50, height: 30, justifyContent: 'center', alignItems: 'center', borderRadius: 4}} 
+          onPress={onPressSua}>
+            <Text style={{color:'white'}}>sua</Text>
+          </TouchableHighlight>
+          <TouchableHighlight style={{backgroundColor: 'red', width: 50, height: 30, justifyContent: 'center', alignItems: 'center', borderRadius: 4, marginVertical: 8}}
+          onPress={onPressXoa}>
+            <Text style={{color:'white'}}>Xoa</Text>
+          </TouchableHighlight>
         </View>
       </View>
     );

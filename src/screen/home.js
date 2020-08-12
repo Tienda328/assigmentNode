@@ -3,70 +3,66 @@ import {View, Text, FlatList} from 'react-native';
 import styles from './styles/login';
 import Item from '../component/item-project';
 
-let data = {
-  users: [
-    {
-      name: 'Proxima Midnight',
-      email: 'proxima@appdividend.com',
-      img:
-        'https://image-us.24h.com.vn/upload/3-2020/images/2020-08-10/nhat-kim-anh-1597027917-30-width640height480.jpg',
-    },
-    {
-      name: 'Ebony Maw',
-      email: 'ebony@appdividend.com',
-      img:
-        'https://image-us.24h.com.vn/upload/3-2020/images/2020-08-10/nhat-kim-anh-1597027917-30-width640height480.jpg',
-    },
-    {
-      name: 'Black Dwarf',
-      email: 'dwarf@appdividend.com',
-      img:
-        'https://image-us.24h.com.vn/upload/3-2020/images/2020-08-10/nhat-kim-anh-1597027917-30-width640height480.jpg',
-    },
-    {
-      name: 'Mad Titan',
-      email: 'thanos@appdividend.com',
-      img:
-        'https://image-us.24h.com.vn/upload/3-2020/images/2020-08-10/nhat-kim-anh-1597027917-30-width640height480.jpg',
-    },
-    {
-      name: 'Supergiant',
-      email: 'supergiant@appdividend.com',
-      img:
-        'https://image-us.24h.com.vn/upload/3-2020/images/2020-08-10/nhat-kim-anh-1597027917-30-width640height480.jpg',
-    },
-    {
-      name: 'Loki',
-      email: 'loki@appdividend.com',
-      img:
-        'https://image-us.24h.com.vn/upload/3-2020/images/2020-08-10/nhat-kim-anh-1597027917-30-width640height480.jpg',
-    },
-    {
-      name: 'corvus',
-      email: 'corvus@appdividend.com',
-      img:
-        'https://image-us.24h.com.vn/upload/3-2020/images/2020-08-10/nhat-kim-anh-1597027917-30-width640height480.jpg',
-    },
-    {
-      name: 'Proxima Midnight',
-      email: 'proxima1@appdividend.com',
-      img:
-        'https://image-us.24h.com.vn/upload/3-2020/images/2020-08-10/nhat-kim-anh-1597027917-30-width640height480.jpg',
-    },
-  ],
-};
 class Home extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: [],
+    };
+  }
+
+  componentDidMount() {
+    this.getData();
+  }
+
+  getData = () => {
+    fetch('http://192.168.137.1:3000/homenews')
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.warn('jehee', responseJson);
+        this.setState({
+          data: responseJson,
+        });
+      })
+      .catch((error) => console.log(error));
+  };
+  sua = (item) => {
+    console.warn('jehee', item._id);
+    const {navigation} = this.props;
+    navigation.navigate('edit', {item});
+  };
+
+  xoa = (item) => {
+    console.warn('xoa', item._id);
+  };
+
   render() {
+    const {data} = this.state;
+
     return (
       <View style={styles.containter}>
-        <View style={{backgroundColor:'blue', justifyContent:'center',alignItems:'center',height: 40}}>
-          <Text style={{color:'white',fontSize: 17}}>Home</Text>
+        <View
+          style={{
+            backgroundColor: 'blue',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: 40,
+          }}>
+          <Text style={{color: 'white', fontSize: 17}}>Home</Text>
         </View>
         <FlatList
-        style={{paddingTop:16}}
-          data={data.users}
+          style={{paddingTop: 16}}
+          data={data}
           showsVerticalScrollIndicator={false}
-          renderItem={({item}) => <Item name={item.name} email={item.email} img={item.img} />}
+          renderItem={({item}) => (
+            <Item
+              name={item.name}
+              email={item.price}
+              img={item.images}
+              onPressSua={() => this.sua(item)}
+              onPressXoa={() => this.xoa(item)}
+            />
+          )}
           keyExtractor={(item) => item.email}
         />
       </View>
